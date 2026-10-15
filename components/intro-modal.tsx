@@ -44,6 +44,9 @@ export default function IntroModal() {
         You can put multiple names into the same category, and may leave some
         categories empty as you see fit.
       </p>
+      <p className="text-sm italic text-[#D94296]">
+        Note: tied names split your vote, so only tie names you truly like equally.
+      </p>
       <p className="text-sm">
         Everyone gets one vote! If you vote twice, only your most recent entry will be counted.
       </p>
