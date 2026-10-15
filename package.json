@@ -12,6 +12,7 @@
     "db:migration:create": "node-pg-migrate create -j sql"
   },
   "dependencies": {
+    "jspdf": "^4.2.1",
     "next": "16.4.1",
     "node-pg-migrate": "^9.0.0",
     "pg": "^8.23.1",

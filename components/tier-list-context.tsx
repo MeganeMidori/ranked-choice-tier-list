@@ -27,13 +27,16 @@ export type TierListState = {
   readyIds: string[];
   // When the most recent candidate became ready, in ms since the page started loading (performance.now()).
   lastReadyAt: number | null;
+  // Whether the visitor has closed the welcome modal. Starting over shows it again.
+  introDismissed: boolean;
 };
 
 export type TierListAction =
   // Moves a candidate into a tier, or back to the unplaced pool when tierLabel is null.
   | { type: "place"; candidateId: string; tierLabel: TierLabel | null }
-  // Clears every tier, returning all candidates to the unplaced pool.
+  // Clears every tier, returning all candidates to the unplaced pool, and shows the welcome modal again.
   | { type: "reset" }
+  | { type: "dismissIntro" }
   | { type: "dragStart"; candidateId: string }
   | { type: "dragEnd" }
   | { type: "dragOver"; tierLabel: TierLabel | null }
@@ -55,6 +58,7 @@ const initialState: TierListState = {
   dragOverTier: null,
   readyIds: [],
   lastReadyAt: null,
+  introDismissed: false,
 };
 
 export function tierListReducer(state: TierListState, action: TierListAction): TierListState {
@@ -72,7 +76,9 @@ export function tierListReducer(state: TierListState, action: TierListAction): T
       return { ...state, placements, draggingId: null, dragOverTier: null };
     }
     case "reset":
-      return { ...state, placements: emptyPlacements };
+      return { ...state, placements: emptyPlacements, introDismissed: false };
+    case "dismissIntro":
+      return { ...state, introDismissed: true };
     case "dragStart":
       return { ...state, draggingId: action.candidateId };
     case "dragEnd":
