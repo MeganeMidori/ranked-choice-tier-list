@@ -18,13 +18,25 @@ const LOGO_LETTER_SPACING = 5.1;
 const WORD_GAP = 22.5;
 // Blank space the logo's viewBox leaves left of its "m".
 const LOGO_LEFT_BEARING = 1.4;
+// Ink-to-ink space between "maid" and "café" in the logo, which sit closer than separate words.
+const MAID_CAFE_GAP = 343.9 - 337.7;
+// Blank space the café-only logo's viewBox leaves left of its "c".
+const CAFE_LEFT_BEARING = 343.9 - 342;
+// The near-black of "maid" in the logo.
+const MAID_COLOR = "text-[#231F20]";
 
-// The logo already reads "maid café", so drop that suffix from names drawn next to it.
-function withoutMaidCafe(name: string) {
-  return name.replace(/\s*maid\s*caf[eé]\s*$/i, "");
+// How to split a name around the logo. The full logo already reads "maid café", so that suffix is dropped. A name
+// ending in just "café" instead draws the rest of the name in the logo's black like "maid", with a café-only logo.
+function splitName(name: string): { lead: string; word?: string } {
+  const lower = name.toLowerCase();
+  const maidCafe = lower.match(/^(.*?)\s*maid\s*caf[eé]\s*$/);
+  if (maidCafe) return { lead: maidCafe[1] };
+  const cafe = lower.match(/^(.*\S)\s+caf[eé]\s*$/);
+  if (cafe) return { lead: "", word: cafe[1] };
+  return { lead: lower };
 }
 
-// The candidate's name drawn in the logo font, followed by the "maid café" logo.
+// The candidate's name drawn in the logo font, followed by the "maid café" logo (or just "café", see splitName).
 // height is the logo's rendered height in CSS pixels. monochrome draws the name and logo in solid black.
 // centerOnLetters shifts everything down toward centering the letters rather than the whole logo with the maid's
 // feet hanging below them. It goes halfway, since fully centered letters look low with the feet underneath.
@@ -43,9 +55,11 @@ export default function CandidateLogo({
   onReady?: () => void;
 }) {
   // Stay hidden until both the name and the logo can show, rather than showing "maid café" with no name first.
-  const [nameDrawn, setNameDrawn] = useState(false);
+  const { lead, word } = splitName(candidate.name);
+  const [leadDrawn, setLeadDrawn] = useState(!lead);
+  const [wordDrawn, setWordDrawn] = useState(!word);
   const [logoLoaded, setLogoLoaded] = useState(false);
-  const ready = nameDrawn && logoLoaded;
+  const ready = leadDrawn && wordDrawn && logoLoaded;
   const handleReady = useEffectEvent(() => onReady?.());
   useEffect(() => {
     if (ready) handleReady();
@@ -53,35 +67,56 @@ export default function CandidateLogo({
   const logoScale = height / LOGO_VIEWBOX_HEIGHT;
   // A transform rather than a margin, so the layout box (and the pill around it) keeps its size.
   const lettersOffset = ((LOGO_VIEWBOX_HEIGHT / 2 - (LOGO_ASCENDER + LOGO_BASELINE) / 2) * logoScale) / 2;
+  const textProps = {
+    height,
+    xHeight: LOGO_X_HEIGHT * logoScale,
+    baseline: LOGO_BASELINE * logoScale,
+    letterSpacing: LOGO_LETTER_SPACING * logoScale,
+    wordGap: WORD_GAP * logoScale,
+  };
+  let logoSrc = monochrome ? "/fanimaid-logo-black.svg" : "/Fanimaid%20Logo.svg";
+  let logoWidth = 659;
+  if (word) {
+    logoSrc = monochrome ? "/fanimaid-cafe-logo-black.svg" : "/fanimaid-cafe-logo.svg";
+    logoWidth = 317;
+  }
   return (
     <div
       // invisible keeps the line's space, so content around it doesn't shift when it appears.
       className={`flex shrink-0 items-center ${ready ? "" : "invisible"}`}
-      style={{
-        gap: (WORD_GAP - LOGO_LEFT_BEARING) * logoScale,
-        transform: centerOnLetters ? `translateY(${lettersOffset}px)` : undefined,
-      }}
+      style={{ transform: centerOnLetters ? `translateY(${lettersOffset}px)` : undefined }}
     >
-      <CanvasText
-        text={withoutMaidCafe(candidate.name).toLowerCase()}
-        height={height}
-        xHeight={LOGO_X_HEIGHT * logoScale}
-        baseline={LOGO_BASELINE * logoScale}
-        letterSpacing={LOGO_LETTER_SPACING * logoScale}
-        wordGap={WORD_GAP * logoScale}
-        // Otherwise the same pink as "café" in the logo.
-        className={monochrome ? "text-black" : "text-[#D94296]"}
-        onDraw={() => setNameDrawn(true)}
-      />
+      {/* Wrapped so the spacing after each canvas doesn't fight the margin CanvasText sets on it. */}
+      {lead && (
+        <div className="flex" style={{ marginRight: (word ? WORD_GAP : WORD_GAP - LOGO_LEFT_BEARING) * logoScale }}>
+          <CanvasText
+            text={lead}
+            {...textProps}
+            // Otherwise the same pink as "café" in the logo.
+            className={monochrome ? "text-black" : "text-[#D94296]"}
+            onDraw={() => setLeadDrawn(true)}
+          />
+        </div>
+      )}
+      {word && (
+        <div className="flex" style={{ marginRight: (MAID_CAFE_GAP - CAFE_LEFT_BEARING) * logoScale }}>
+          <CanvasText
+            text={word}
+            {...textProps}
+            className={monochrome ? "text-black" : MAID_COLOR}
+            onDraw={() => setWordDrawn(true)}
+          />
+        </div>
+      )}
       {/* draggable={false} so grabbing the logo drags the chip, not the image. */}
       <Image
         // An all-black copy of the logo, since CSS filters don't reliably survive the browser's drag image snapshot.
-        src={monochrome ? "/fanimaid-logo-black.svg" : "/Fanimaid%20Logo.svg"}
+        src={logoSrc}
         alt=""
-        width={659}
+        width={logoWidth}
         height={188}
         draggable={false}
-        // Eager so the download starts from the server-rendered HTML. There are only two logo files, shared by
+        // Eager so the download starts from the server-rendered HTML. There are only a few logo files, shared by
         // every chip, and the drag preview's copy is off-screen where a lazy image would never load.
         loading="eager"
         style={{ height }}
