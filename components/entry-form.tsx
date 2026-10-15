@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { candidates } from "@/lib/candidates";
 import { tiers, useTierList } from "@/components/tier-list-context";
 import Modal from "@/components/modal";
 import { downloadResponsePdf } from "@/lib/response-pdf";
+import type { TierKey, VoteInput } from "@/lib/votes";
 
 const candidatesById = new Map(candidates.map((c) => [c.id, c]));
 
@@ -12,7 +13,7 @@ const candidatesById = new Map(candidates.map((c) => [c.id, c]));
 type Entry = { maidName: string; fullName: string; comments: string };
 
 // The entry form. Submitting it checks the required fields, then shows the entry back in a modal so it can be checked
-// before it's sent. Confirming swaps it for a thank-you modal, where the response can be downloaded as a PDF. The tier list is read live from context, since nothing can change it while the modal is open.
+// before it's sent. Confirming saves it, then swaps in a thank-you modal, where the response can be downloaded as a PDF. The tier list is read live from context, since nothing can change it while the modal is open.
 //
 // Fields mark themselves invalid with required and pattern, and show their own error messages with :user-invalid,
 // which matches after a failed submit or once someone has edited the field, and is cleared by a reset.
@@ -21,9 +22,44 @@ export default function EntryForm({ className, children }: { className?: string;
   const [entry, setEntry] = useState<Entry | null>(null);
   // The confirmed entry, kept for the thank-you modal's download.
   const [submitted, setSubmitted] = useState<Entry | null>(null);
-  const close = () => setEntry(null);
-  const namesInTier = (label: string) =>
-    state.placements.filter((p) => p.tier === label).map((p) => candidatesById.get(p.id)!.name);
+  // Set when saving fails, and shown in the confirm modal so the entry can be sent again.
+  const [error, setError] = useState<string | null>(null);
+  const [saving, startSaving] = useTransition();
+  const close = () => {
+    setEntry(null);
+    setError(null);
+  };
+  const idsInTier = (label: string) => state.placements.filter((p) => p.tier === label).map((p) => p.id);
+  const namesInTier = (label: string) => idsInTier(label).map((id) => candidatesById.get(id)!.name);
+
+  const confirm = () => {
+    if (!entry) return;
+    setError(null);
+    startSaving(async () => {
+      // Tier labels are "S-Tier", "A-Tier", ..., so the first letter is the key.
+      const tierIds = Object.fromEntries(
+        tiers.map((tier) => [tier.label[0].toLowerCase(), idsInTier(tier.label)]),
+      ) as Record<TierKey, string[]>;
+      const body: VoteInput = { ...entry, tiers: tierIds };
+      try {
+        const res = await fetch("/api/votes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => null);
+          setError(data?.error ?? "Something went wrong saving your entry. Please try again.");
+          return;
+        }
+      } catch {
+        setError("Couldn't reach the server. Check your connection and try again.");
+        return;
+      }
+      setSubmitted(entry);
+      close();
+    });
+  };
 
   return (
     <>
@@ -49,7 +85,8 @@ export default function EntryForm({ className, children }: { className?: string;
       >
         {children}
       </form>
-      <Modal open={entry !== null} onClose={close}>
+      {/* Closing is blocked while saving, so the entry can't be edited and sent again mid-save. */}
+      <Modal open={entry !== null} onClose={saving ? undefined : close}>
         <h2 className="text-base font-bold uppercase text-[#D94296]">Confirm your entry</h2>
         <dl className="flex flex-col gap-3 text-sm">
           <Field label="Maid Name" value={entry?.maidName} />
@@ -79,22 +116,21 @@ export default function EntryForm({ className, children }: { className?: string;
           </div>
           <Field label="Additional Comments" value={entry?.comments} />
         </dl>
+        {error && <p className="text-sm text-red-600">{error}</p>}
         <div className="flex justify-end gap-2">
-          {/* Nothing is saved yet: this only swaps in the thank-you modal. */}
           <button
             type="button"
-            onClick={() => {
-              setSubmitted(entry);
-              close();
-            }}
-            className="h-10 cursor-pointer rounded-full bg-[#D94296] px-5 text-sm font-bold text-white transition-colors hover:bg-[#C2357F]"
+            onClick={confirm}
+            disabled={saving}
+            className="h-10 cursor-pointer rounded-full bg-[#D94296] px-5 text-sm font-bold text-white transition-colors hover:bg-[#C2357F] disabled:cursor-wait disabled:opacity-60"
           >
-            Confirm
+            {saving ? "Saving…" : "Confirm"}
           </button>
           <button
             type="button"
             onClick={close}
-            className="h-10 cursor-pointer rounded-full border border-[#D94296] px-5 text-sm font-bold text-[#D94296] transition-colors hover:bg-[#D94296]/10"
+            disabled={saving}
+            className="h-10 cursor-pointer rounded-full border border-[#D94296] px-5 text-sm font-bold text-[#D94296] transition-colors hover:bg-[#D94296]/10 disabled:cursor-not-allowed disabled:opacity-60"
           >
             Go back
           </button>
