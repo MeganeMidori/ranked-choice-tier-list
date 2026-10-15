@@ -1,6 +1,7 @@
 import { pool } from "@/lib/db";
 import { candidates } from "@/lib/candidates";
 import { tierKeys, type TierKey } from "@/lib/votes";
+import { isSignedIn } from "@/lib/site-auth";
 
 const MAX_NAME_LENGTH = 200;
 const MAX_COMMENTS_LENGTH = 5000;
@@ -15,6 +16,8 @@ const cleanText = (value: unknown) => (typeof value === "string" ? value.replace
 // Saves a confirmed entry (a VoteInput). Anyone can POST here directly, so everything the form checks is checked
 // again here. Responds 201 on success, or with { error } to show the voter.
 export async function POST(request: Request) {
+  if (!(await isSignedIn())) return fail("Your session has expired. Please reload the page and sign in again.", 401);
+
   let input;
   try {
     input = await request.json();

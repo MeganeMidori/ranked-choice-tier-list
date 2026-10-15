@@ -69,6 +69,12 @@ import { pool } from "@/lib/db";
 const { rows } = await pool.query("select * from some_table");
 ```
 
+### Site password
+
+The whole site, including the API, sits behind a single password set by `SITE_PASSWORD` in `.env.local` (or the host's environment in production). Visitors are sent to `/login` until they enter it, and stay signed in for 30 days through an encrypted [iron-session](https://github.com/vvo/iron-session) cookie.
+
+`SESSION_SECRET` encrypts that cookie and must be at least 32 random characters (`openssl rand -hex 32`). Changing it signs everyone out; changing `SITE_PASSWORD` alone does not. If either isn't set, nobody can get in.
+
 ### Dev server
 
 Run the development server:
