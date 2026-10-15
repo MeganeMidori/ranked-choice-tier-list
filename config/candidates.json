@@ -1,10 +1,70 @@
 {
   "candidates": [
-    { "id": "atsumari", "name": "Atsumari Maid Cafe", "nameJa": "あつまりメイドカフェ", "description": "Sample description for Atsumari Maid Cafe." },
-    { "id": "maru", "name": "Maru Maid Cafe", "nameJa": "まるメイドカフェ", "description": "Sample description for Maru Maid Cafe." },
-    { "id": "moe-point", "name": "Moe Point Maid Cafe", "nameJa": "萌えポイントメイドカフェ", "description": "Sample description for Moe Point Maid Cafe." },
-    { "id": "minna-to", "name": "Minna To Maid Cafe", "nameJa": "みんなとメイドカフェ", "description": "Sample description for Minna To Maid Cafe." },
-    { "id": "encore", "name": "Encore Maid Cafe", "nameJa": "アンコールメイドカフェ", "description": "Sample description for Encore Maid Cafe." },
-    { "id": "moe-magic", "name": "Moe Magic Maid Cafe", "nameJa": "萌えマジックメイドカフェ", "description": "Sample description for Moe Magic Maid Cafe." }
+    {
+      "id": "atsumari",
+      "name": "Atsumari Maid Cafe",
+      "nameJa": "集まりメイドカフェ",
+      "description": "Atsumari (集まり) means a \"gathering\" or \"collection\", reflecting the togetherness of our community of maids, butlers, and guests. It can be shortened to \"Atsumaid\" as a nickname."
+    },
+    {
+      "id": "moe-point",
+      "name": "Moe Point Maid Cafe",
+      "nameJa": "萌えポイントメイドカフェ",
+      "description": "A moe point is the trait fans love most in a character, like glasses, twintails, or clumsiness. The name celebrates how every maid brings her own flavor of cuteness to the cafe."
+    },
+    {
+      "id": "moe-magic",
+      "name": "Moe Magic Maid Cafe",
+      "nameJa": "萌えマジックメイドカフェ",
+      "description": "A nod to the moe \"magic\" maids perform at the table, like food blessings and the aikome power-up."
+    },
+    {
+      "id": "rebloom",
+      "name": "Rebloom Maid Cafe",
+      "nameJa": "リブルームメイドカフェ",
+      "description": "A fresh start for our cafe, told through flowers. Cherry blossoms and florals have long been part of our graphics and table decorations."
+    },
+    {
+      "id": "minna-to",
+      "name": "Minna To Maid Cafe",
+      "nameJa": "みんなとメイドカフェ",
+      "description": "Minna to (みんなと) means \"with everyone\": a maid cafe for and with our whole community. It also playfully echoes minato (harbor), a nod to our Bay Area home."
+    },
+    {
+      "id": "okaeri",
+      "name": "Okaeri Maid Cafe",
+      "nameJa": "おかえりメイドカフェ",
+      "description": "Okaeri (おかえり) means \"welcome home,\" the greeting we say to every guest all day long. Note: Several existing businesses use \"Okaeri,\" including a Japanese bistro in SF."
+    },
+    {
+      "id": "welcome-home",
+      "name": "Welcome Home Cafe",
+      "nameJa": "ウェルカムホームメイドカフェ",
+      "description": "The English version of our greeting to every guest. Home is where the heart is, and while Fanime was our home for many years, our maids are the true home of the cafe."
+    },
+    {
+      "id": "yumemiru",
+      "name": "Yumemiru",
+      "nameJa": "夢見る",
+      "description": "Yumemiru (夢見る) means \"to dream,\".\" It describes a place where our maids can pursue their goals and aspirations. Note: This name is thematically similar to the existing Dreamland Maid Cafe. Please consider whether it feels distinct enough, and let your vote reflect that."
+    },
+    {
+      "id": "minato",
+      "name": "Minato Maid Cafe",
+      "nameJa": "みなとメイドカフェ",
+      "description": "Minato (港) means \"harbor,\" a safe harbor for our maids and a nod to our Bay Area home."
+    },
+    {
+      "id": "hoshicolle",
+      "name": "Hoshicolle Maid Cafe",
+      "nameJa": "星コレメイドカフェ",
+      "description": "Hoshi colle (星コレ) means \"star collection,\". Each maid is a star in our shared constellation. A heart-shaped jar of origami stars was proposed as the central image. Note: This name sounds similar to the existing Ai Hoshi Cafe. “Ai” means love, so both names pair love/hearts with “hoshi” (star). Please consider whether it feels distinct enough, and let your vote reflect that."
+    },
+    {
+      "id": "hoshi-heart",
+      "name": "Hoshi Heart Maid Cafe",
+      "nameJa": "星ハートメイドカフェ",
+      "description": "Hoshi (星) means \"star.\" The name pictures a heart-shaped jar full of origami stars, with each maid as a star in our community. It ties into the hearts throughout our past branding and the origami paper we keep at every table. Note: This name sounds similar to the existing Ai Hoshi Cafe. “Ai” means love, so both names pair love/hearts with “hoshi” (star). Please consider whether it feels distinct enough, and let your vote reflect that."
+    }
   ]
 }

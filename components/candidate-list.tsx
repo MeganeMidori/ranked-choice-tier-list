@@ -25,7 +25,7 @@ export default function CandidateList() {
           tierLabel: null,
         });
       }}
-      className="flex min-h-20 flex-1 flex-col gap-2"
+      className="flex min-h-20 shrink-0 grow flex-col gap-2"
     >
       {unplaced.map((candidate) => (
         <li key={candidate.id}>
