@@ -5,6 +5,7 @@ import { candidates, CANDIDATE_DRAG_TYPE } from "@/lib/candidates";
 import { tiers, useTierList } from "@/components/tier-list-context";
 import CandidateChip from "@/components/candidate-chip";
 import { DROP_TARGET_ATTR } from "@/components/use-touch-drag";
+import { useCandidateTabOrder } from "@/components/use-candidate-tab-order";
 
 const candidatesById = new Map(candidates.map((c) => [c.id, c]));
 
@@ -16,6 +17,9 @@ export default function TierList() {
   // names are still unplaced.
   const [submitFailed, setSubmitFailed] = useState(false);
   const showError = submitFailed && unplacedCount > 0;
+  const containerRef = useRef<HTMLDivElement>(null);
+  useCandidateTabOrder(containerRef);
+  const dragging = state.draggingId ? candidatesById.get(state.draggingId) : undefined;
 
   useEffect(() => {
     validityRef.current!.setCustomValidity(unplacedCount ? "Place every name in the tier list." : "");
@@ -30,7 +34,7 @@ export default function TierList() {
 
   return (
     // Relative so the hidden checkbox below scrolls with the form when it's focused.
-    <div className="relative flex flex-1 flex-col gap-1">
+    <div ref={containerRef} className="relative flex flex-1 flex-col gap-1">
       {/* Takes part in the form's validation for the tier list, which has no input of its own, so a submit with
           unplaced names fails and focuses here. A checkbox, since focusing a text input would open the keyboard on
           mobile. The error is shown from state rather than with peer-user-invalid like the text fields: Chrome
@@ -92,6 +96,10 @@ export default function TierList() {
           </div>
         ))}
       </div>
+      {/* Tells screen readers which tier a name picked up with the keyboard would land in. */}
+      <span aria-live="polite" className="sr-only">
+        {dragging && state.dragOverTier ? `${dragging.name}: ${state.dragOverTier}` : ""}
+      </span>
       {showError && (
         <span className="text-sm text-red-600 dark:text-red-400">
           Please place every name in the tier list. {unplacedCount} {unplacedCount === 1 ? "name is" : "names are"}{" "}

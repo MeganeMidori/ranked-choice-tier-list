@@ -24,7 +24,7 @@ export default function Home() {
               required
               // Rejects names that are only spaces.
               pattern=".*\S.*"
-              className="peer rounded border border-black/[.15] bg-white px-3 py-2 font-normal text-black user-invalid:border-red-600 dark:border-white/[.2] dark:bg-zinc-900 dark:text-zinc-50 dark:user-invalid:border-red-400"
+              className="peer rounded border outline-[#D94296] focus:outline-solid focus:outline-2 border-black/[.15] bg-white px-3 py-2 font-normal text-black user-invalid:border-red-600 dark:border-white/[.2] dark:bg-zinc-900 dark:text-zinc-50 dark:user-invalid:border-red-400"
             />
             <span className="hidden text-red-600 peer-user-invalid:block dark:text-red-400">Please enter your maid name.</span>
           </label>
@@ -36,7 +36,7 @@ export default function Home() {
               required
               // Rejects names that are only spaces.
               pattern=".*\S.*"
-              className="peer rounded border border-black/[.15] bg-white px-3 py-2 font-normal text-black user-invalid:border-red-600 dark:border-white/[.2] dark:bg-zinc-900 dark:text-zinc-50 dark:user-invalid:border-red-400"
+              className="peer rounded border outline-[#D94296] focus:outline-solid focus:outline-2 border-black/[.15] bg-white px-3 py-2 font-normal text-black user-invalid:border-red-600 dark:border-white/[.2] dark:bg-zinc-900 dark:text-zinc-50 dark:user-invalid:border-red-400"
             />
             <span className="hidden text-red-600 peer-user-invalid:block dark:text-red-400">Please enter your full name.</span>
           </label>
@@ -46,7 +46,7 @@ export default function Home() {
             <textarea
               name="additional_comments"
               rows={4}
-              className="rounded border border-black/[.15] bg-white px-3 py-2 font-normal text-black dark:border-white/[.2] dark:bg-zinc-900 dark:text-zinc-50"
+              className="rounded border outline-[#D94296] focus:outline-solid focus:outline-2 border-black/[.15] bg-white px-3 py-2 font-normal text-black dark:border-white/[.2] dark:bg-zinc-900 dark:text-zinc-50"
             />
           </label>
           <div className="flex gap-2">
