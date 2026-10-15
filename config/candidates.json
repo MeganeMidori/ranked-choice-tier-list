@@ -1,0 +1,10 @@
+{
+  "candidates": [
+    { "id": "atsumari", "name": "Atsumari Maid Cafe" },
+    { "id": "maru", "name": "Maru Maid Cafe" },
+    { "id": "moe-point", "name": "Moe Point Maid Cafe" },
+    { "id": "minna-to", "name": "Minna To Maid Cafe" },
+    { "id": "encore", "name": "Encore Maid Cafe" },
+    { "id": "moe-magic", "name": "Moe Magic Maid Cafe" }
+  ]
+}

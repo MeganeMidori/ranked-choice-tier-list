@@ -1,4 +1,5 @@
 import TierList from "@/components/tier-list";
+import CandidateList from "@/components/candidate-list";
 
 export default function Home() {
   return (
@@ -27,16 +28,11 @@ export default function Home() {
           </button>
         </div>
       </section>
-      <section className="flex flex-1 flex-col gap-4 p-8">
-        <h2 className="text-2xl font-semibold tracking-tight text-black dark:text-zinc-50">
-          Right
+      <section className="flex flex-1 flex-col gap-4 p-4">
+        <h2 className="text-sm font-medium text-black dark:text-zinc-50">
+          Candidates
         </h2>
-        <p className="text-zinc-600 dark:text-zinc-400">
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-          dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est
-          laborum.
-        </p>
+        <CandidateList />
       </section>
     </div>
   );
