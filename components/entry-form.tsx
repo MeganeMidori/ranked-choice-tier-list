@@ -139,7 +139,7 @@ export default function EntryForm({ className, children }: { className?: string;
       {/* No onClose and no close button: once confirmed, the form stays covered so the entry can't be submitted again. */}
       <Modal open={submitted !== null}>
         <h2 className="text-base font-bold uppercase text-[#D94296]">Thank you for your feedback!</h2>
-        <p className="text-sm">Results will be tallied and announced on MM/DD.</p>
+        <p className="text-sm">Results will be tallied and announced soon.</p>
         <p className="text-sm">
           If you have any questions please reach us via email at{" "}
           <a href="mailto:fanimaidcafe@gmail.com" className="text-[#D94296] underline">
