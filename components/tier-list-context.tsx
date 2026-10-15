@@ -21,6 +21,8 @@ export type TierListState = {
   placements: Placement[];
   // Id of the candidate currently being dragged, if any.
   draggingId: string | null;
+  // The tier the dragged candidate is over, if any.
+  dragOverTier: TierLabel | null;
   // Ids of candidates whose drag preview has loaded. The page shows a loading overlay until every candidate is here.
   readyIds: string[];
   // When the most recent candidate became ready, in ms since the page started loading (performance.now()).
@@ -34,6 +36,7 @@ export type TierListAction =
   | { type: "reset" }
   | { type: "dragStart"; candidateId: string }
   | { type: "dragEnd" }
+  | { type: "dragOver"; tierLabel: TierLabel | null }
   // at is performance.now() when it became ready.
   | { type: "candidateReady"; candidateId: string; at: number };
 
@@ -46,28 +49,38 @@ const TierListContext = createContext<TierListContextValue | null>(null);
 
 const emptyPlacements: Placement[] = candidates.map((c) => ({ id: c.id, tier: null }));
 
-const initialState: TierListState = { placements: emptyPlacements, draggingId: null, readyIds: [], lastReadyAt: null };
+const initialState: TierListState = {
+  placements: emptyPlacements,
+  draggingId: null,
+  dragOverTier: null,
+  readyIds: [],
+  lastReadyAt: null,
+};
 
 export function tierListReducer(state: TierListState, action: TierListAction): TierListState {
   switch (action.type) {
     case "place": {
       const { candidateId, tierLabel } = action;
       // The dragged element may unmount on drop and never fire dragend, so clear it here too.
-      if (!state.placements.some((p) => p.id === candidateId)) return { ...state, draggingId: null };
+      if (!state.placements.some((p) => p.id === candidateId)) return { ...state, draggingId: null, dragOverTier: null };
 
       // Move the entry to the end so it appears last in its new tier.
       const placements = [
         ...state.placements.filter((p) => p.id !== candidateId),
         { id: candidateId, tier: tierLabel },
       ];
-      return { ...state, placements, draggingId: null };
+      return { ...state, placements, draggingId: null, dragOverTier: null };
     }
     case "reset":
       return { ...state, placements: emptyPlacements };
     case "dragStart":
       return { ...state, draggingId: action.candidateId };
     case "dragEnd":
-      return { ...state, draggingId: null };
+      return { ...state, draggingId: null, dragOverTier: null };
+    case "dragOver":
+      // Fires on every pointer move, so skip the re-render when nothing changed.
+      if (state.dragOverTier === action.tierLabel) return state;
+      return { ...state, dragOverTier: action.tierLabel };
     case "candidateReady":
       if (state.readyIds.includes(action.candidateId)) return state;
       return { ...state, readyIds: [...state.readyIds, action.candidateId], lastReadyAt: action.at };

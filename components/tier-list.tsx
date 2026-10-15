@@ -1,15 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { candidates, CANDIDATE_DRAG_TYPE } from "@/lib/candidates";
 import { tiers, useTierList } from "@/components/tier-list-context";
 import CandidateChip from "@/components/candidate-chip";
+import { DROP_TARGET_ATTR } from "@/components/use-touch-drag";
 
 const candidatesById = new Map(candidates.map((c) => [c.id, c]));
 
 export default function TierList() {
   const { state, dispatch } = useTierList();
-  const [dragOverTier, setDragOverTier] = useState<string | null>(null);
 
   return (
     <div className="flex flex-1 flex-col border border-black/[.15] bg-white">
@@ -22,15 +21,15 @@ export default function TierList() {
             {tier.label}
           </div>
           <div
+            {...{ [DROP_TARGET_ATTR]: tier.label }}
             onDragOver={(e) => {
               if (!e.dataTransfer.types.includes(CANDIDATE_DRAG_TYPE)) return;
               e.preventDefault();
-              setDragOverTier(tier.label);
+              dispatch({ type: "dragOver", tierLabel: tier.label });
             }}
-            onDragLeave={() => setDragOverTier(null)}
+            onDragLeave={() => dispatch({ type: "dragOver", tierLabel: null })}
             onDrop={(e) => {
               e.preventDefault();
-              setDragOverTier(null);
               dispatch({
                 type: "place",
                 candidateId: e.dataTransfer.getData(CANDIDATE_DRAG_TYPE),
@@ -38,7 +37,7 @@ export default function TierList() {
               });
             }}
             className={`flex flex-1 flex-wrap items-center gap-1 p-1 ${
-              dragOverTier === tier.label ? "bg-zinc-100" : "bg-white"
+              state.dragOverTier === tier.label ? "bg-zinc-100" : "bg-white"
             }`}
           >
             {state.placements

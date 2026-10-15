@@ -5,6 +5,7 @@ import { CANDIDATE_DRAG_TYPE, type Candidate } from "@/lib/candidates";
 import { useTierList } from "@/components/tier-list-context";
 import CandidateDragPreview, { PILL_COLORS, PILL_SHAPE, PREVIEW_LOGO_HEIGHT } from "@/components/candidate-drag-preview";
 import CandidateLogo from "@/components/candidate-logo";
+import { useTouchDrag } from "@/components/use-touch-drag";
 
 const CARD_COLORS =
   "border-black/[.15] bg-white text-black dark:border-white/[.2] dark:bg-zinc-900 dark:text-zinc-50";
@@ -24,12 +25,28 @@ export default function CandidateChip({
   // Only draggable once the preview can be shown. Before then, including before hydration attaches onDragStart,
   // the browser would drag a snapshot of the whole chip carrying no candidate id.
   const [previewReady, setPreviewReady] = useState(false);
+  const chipRef = useRef<HTMLDivElement>(null);
+  const touchActive = useTouchDrag({
+    chipRef,
+    previewRef,
+    enabled: previewReady,
+    onStart: () => dispatch({ type: "dragStart", candidateId: candidate.id }),
+    onOver: (target) => dispatch({ type: "dragOver", tierLabel: target ?? null }),
+    onDrop: (target) =>
+      dispatch(
+        target === undefined ? { type: "dragEnd" } : { type: "place", candidateId: candidate.id, tierLabel: target },
+      ),
+    onCancel: () => dispatch({ type: "dragEnd" }),
+  });
 
   return (
     <>
       <div
+        ref={chipRef}
         draggable={previewReady}
         onDragStart={(e) => {
+          // Touch drags are handled by useTouchDrag. Some phones also start a native drag from a long press.
+          if (touchActive.current) return e.preventDefault();
           // Center the preview under the cursor. It's smaller than the chip, so the grab point's offset within the
           // chip can land outside it.
           const preview = previewRef.current!;
@@ -39,7 +56,9 @@ export default function CandidateChip({
           dispatch({ type: "dragStart", candidateId: candidate.id });
         }}
         onDragEnd={() => dispatch({ type: "dragEnd" })}
-        className={`${previewReady ? "cursor-grab active:cursor-grabbing" : ""} ${
+        // A long press would otherwise open the browser's context menu or start selecting text.
+        onContextMenu={(e) => touchActive.current && e.preventDefault()}
+        className={`select-none [-webkit-touch-callout:none] ${previewReady ? "cursor-grab active:cursor-grabbing" : ""} ${
           showDetails ? "rounded border px-3 py-2 text-sm" : PILL_SHAPE
         } ${isDragging ? DRAGGING_COLORS : showDetails ? CARD_COLORS : PILL_COLORS}`}
       >

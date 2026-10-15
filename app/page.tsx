@@ -3,14 +3,18 @@ import CandidateList from "@/components/candidate-list";
 import { TierListProvider } from "@/components/tier-list-context";
 import ClearButton from "@/components/clear-button";
 import LoadingOverlay from "@/components/loading-overlay";
+import IntroModal from "@/components/intro-modal";
 import { getLoadingMessages } from "@/lib/loading-messages";
 
 export default function Home() {
   return (
     <TierListProvider>
       <LoadingOverlay messages={getLoadingMessages()} />
-      <div className="flex flex-1 flex-col bg-pink-50 font-sans md:flex-row dark:bg-black">
-        <form className="flex flex-1 flex-col gap-4 border-b border-black/[.08] p-4 md:border-r md:border-b-0 dark:border-white/[.145]">
+      <IntroModal />
+      {/* The form and candidates each take half the screen and scroll on their own, so the tier list stays in reach
+          while browsing candidates. They stack on mobile and sit side by side on wider screens. */}
+      <div className="flex h-dvh flex-col bg-pink-50 font-sans md:flex-row dark:bg-black">
+        <form className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-contain border-b border-black/[.08] p-4 md:border-r md:border-b-0 dark:border-white/[.145]">
           <label className="flex flex-col gap-1 text-sm font-medium text-black dark:text-zinc-50">
             <span className="text-base font-bold uppercase text-[#D94296]">Maid Name</span>
             <input
@@ -43,7 +47,7 @@ export default function Home() {
             <ClearButton />
           </div>
         </form>
-        <section className="flex flex-1 flex-col gap-1 p-4">
+        <section className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overscroll-contain p-4">
           <h2 className="text-base font-bold uppercase text-[#D94296]">
             Candidates
           </h2>
