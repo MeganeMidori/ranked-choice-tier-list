@@ -44,11 +44,7 @@ export default function TierList() {
             {state.placements
               .filter((p) => p.tier === tier.label)
               .map(({ id }) => (
-                <CandidateChip
-                  key={id}
-                  candidate={candidatesById.get(id)!}
-                  className="border-black/[.15] bg-white text-black"
-                />
+                <CandidateChip key={id} candidate={candidatesById.get(id)!} />
               ))}
           </div>
         </div>

@@ -9,7 +9,7 @@ export default function Home() {
       <div className="flex flex-1 flex-col bg-zinc-50 font-sans md:flex-row dark:bg-black">
         <form className="flex flex-1 flex-col gap-4 border-b border-black/[.08] p-4 md:border-r md:border-b-0 dark:border-white/[.145]">
           <label className="flex flex-col gap-1 text-sm font-medium text-black dark:text-zinc-50">
-            Name
+            <span className="text-base font-bold uppercase text-[#D94296]">Name</span>
             <input
               type="text"
               name="name"
@@ -17,7 +17,7 @@ export default function Home() {
             />
           </label>
           <div className="flex flex-1 flex-col gap-1">
-            <h2 className="text-sm font-medium text-black dark:text-zinc-50">
+            <h2 className="text-base font-bold uppercase text-[#D94296]">
               Tier List
             </h2>
             <TierList />
@@ -25,15 +25,15 @@ export default function Home() {
           <div className="flex gap-2">
             <button
               type="button"
-              className="h-10 rounded-full bg-foreground px-5 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+              className="h-10 cursor-pointer rounded-full bg-[#D94296] px-5 text-sm font-medium text-white transition-colors hover:bg-[#C2357F]"
             >
               Submit
             </button>
             <ClearButton />
           </div>
         </form>
-        <section className="flex flex-1 flex-col gap-4 p-4">
-          <h2 className="text-sm font-medium text-black dark:text-zinc-50">
+        <section className="flex flex-1 flex-col gap-1 p-4">
+          <h2 className="text-base font-bold uppercase text-[#D94296]">
             Candidates
           </h2>
           <CandidateList />

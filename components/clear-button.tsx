@@ -10,7 +10,7 @@ export default function ClearButton() {
     <button
       type="reset"
       onClick={() => dispatch({ type: "reset" })}
-      className="h-10 rounded-full border border-black/[.15] px-5 text-sm font-medium text-black transition-colors hover:bg-black/[.05] dark:border-white/[.2] dark:text-zinc-50 dark:hover:bg-white/[.08]"
+      className="h-10 cursor-pointer rounded-full border border-[#D94296] px-5 text-sm font-medium text-[#D94296] transition-colors hover:bg-[#D94296]/10"
     >
       Clear
     </button>

@@ -1,10 +1,10 @@
 {
   "candidates": [
-    { "id": "atsumari", "name": "Atsumari Maid Cafe" },
-    { "id": "maru", "name": "Maru Maid Cafe" },
-    { "id": "moe-point", "name": "Moe Point Maid Cafe" },
-    { "id": "minna-to", "name": "Minna To Maid Cafe" },
-    { "id": "encore", "name": "Encore Maid Cafe" },
-    { "id": "moe-magic", "name": "Moe Magic Maid Cafe" }
+    { "id": "atsumari", "name": "Atsumari Maid Cafe", "nameJa": "あつまりメイドカフェ", "description": "Sample description for Atsumari Maid Cafe." },
+    { "id": "maru", "name": "Maru Maid Cafe", "nameJa": "まるメイドカフェ", "description": "Sample description for Maru Maid Cafe." },
+    { "id": "moe-point", "name": "Moe Point Maid Cafe", "nameJa": "萌えポイントメイドカフェ", "description": "Sample description for Moe Point Maid Cafe." },
+    { "id": "minna-to", "name": "Minna To Maid Cafe", "nameJa": "みんなとメイドカフェ", "description": "Sample description for Minna To Maid Cafe." },
+    { "id": "encore", "name": "Encore Maid Cafe", "nameJa": "アンコールメイドカフェ", "description": "Sample description for Encore Maid Cafe." },
+    { "id": "moe-magic", "name": "Moe Magic Maid Cafe", "nameJa": "萌えマジックメイドカフェ", "description": "Sample description for Moe Magic Maid Cafe." }
   ]
 }

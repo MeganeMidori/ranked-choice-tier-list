@@ -22,7 +22,7 @@ export default function CandidateList() {
           tierLabel: null,
         });
       }}
-      className="flex min-h-20 flex-1 flex-wrap content-start gap-2"
+      className="flex min-h-20 flex-1 flex-col gap-2"
     >
       {candidates
         .filter((candidate) => !placedIds.has(candidate.id))
@@ -30,7 +30,7 @@ export default function CandidateList() {
           <li key={candidate.id}>
             <CandidateChip
               candidate={candidate}
-              className="border-black/[.15] bg-white text-black dark:border-white/[.2] dark:bg-zinc-900 dark:text-zinc-50"
+              showDetails
             />
           </li>
         ))}
