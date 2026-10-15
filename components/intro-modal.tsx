@@ -14,7 +14,7 @@ export default function IntroModal() {
   return (
     <Modal open={ready && !state.introDismissed} onClose={dismiss}>
       <h2 className="text-base font-bold uppercase text-[#D94296]">
-        Welcome to the maid cafe poll!
+        Fanimaid Rename Poll
       </h2>
       <p className="text-sm">
         Welcome and thank you for helping us lay the foundation for our next
