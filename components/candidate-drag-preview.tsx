@@ -10,13 +10,16 @@ export const PILL_COLORS = "border-pink-400 bg-pink-100";
 export const PREVIEW_LOGO_HEIGHT = 20;
 
 // The image that follows the cursor while a candidate is dragged, styled independently of the chip being dragged.
-// setDragImage needs a rendered element, so it's kept in the DOM but positioned off-screen.
+// setDragImage needs a rendered element, so it's kept in the DOM but positioned off-screen. onReady is called once
+// its contents are showing, so it's safe to snapshot.
 export default function CandidateDragPreview({
   candidate,
   ref,
+  onReady,
 }: {
   candidate: Candidate;
   ref: React.Ref<HTMLDivElement>;
+  onReady: () => void;
 }) {
   return (
     <div
@@ -24,7 +27,7 @@ export default function CandidateDragPreview({
       aria-hidden
       className={`pointer-events-none fixed top-0 -left-[9999px] ${PILL_SHAPE} ${PILL_COLORS}`}
     >
-      <CandidateLogo candidate={candidate} height={PREVIEW_LOGO_HEIGHT} monochrome centerOnLetters />
+      <CandidateLogo candidate={candidate} height={PREVIEW_LOGO_HEIGHT} monochrome centerOnLetters onReady={onReady} />
     </div>
   );
 }

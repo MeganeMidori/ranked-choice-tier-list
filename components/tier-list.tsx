@@ -12,12 +12,12 @@ export default function TierList() {
   const [dragOverTier, setDragOverTier] = useState<string | null>(null);
 
   return (
-    <div className="flex flex-1 flex-col border border-black bg-white">
+    <div className="flex flex-1 flex-col border border-black/[.15] bg-white">
       {tiers.map((tier) => (
-        <div key={tier.label} className="flex min-h-20 flex-1 border-b border-black last:border-b-0">
+        <div key={tier.label} className="flex min-h-20 flex-1 border-b border-black/[.15] last:border-b-0">
           <div
-            className="flex w-24 shrink-0 items-center justify-center p-2 text-center text-sm text-zinc-900"
-            style={{ backgroundColor: tier.color }}
+            className="flex w-24 shrink-0 items-center justify-center p-2 text-center text-sm font-bold"
+            style={{ backgroundColor: tier.color, color: tier.textColor }}
           >
             {tier.label}
           </div>

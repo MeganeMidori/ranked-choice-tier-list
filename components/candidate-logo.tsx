@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import Image from "next/image";
 import type { Candidate } from "@/lib/candidates";
 import CanvasText from "@/components/canvas-text";
@@ -28,27 +28,35 @@ function withoutMaidCafe(name: string) {
 // height is the logo's rendered height in CSS pixels. monochrome draws the name and logo in solid black.
 // centerOnLetters shifts everything down toward centering the letters rather than the whole logo with the maid's
 // feet hanging below them. It goes halfway, since fully centered letters look low with the feet underneath.
+// onReady is called once both the name and the logo are showing.
 export default function CandidateLogo({
   candidate,
   height = 32,
   monochrome = false,
   centerOnLetters = false,
+  onReady,
 }: {
   candidate: Candidate;
   height?: number;
   monochrome?: boolean;
   centerOnLetters?: boolean;
+  onReady?: () => void;
 }) {
   // Stay hidden until both the name and the logo can show, rather than showing "maid café" with no name first.
   const [nameDrawn, setNameDrawn] = useState(false);
   const [logoLoaded, setLogoLoaded] = useState(false);
+  const ready = nameDrawn && logoLoaded;
+  const handleReady = useEffectEvent(() => onReady?.());
+  useEffect(() => {
+    if (ready) handleReady();
+  }, [ready]);
   const logoScale = height / LOGO_VIEWBOX_HEIGHT;
   // A transform rather than a margin, so the layout box (and the pill around it) keeps its size.
   const lettersOffset = ((LOGO_VIEWBOX_HEIGHT / 2 - (LOGO_ASCENDER + LOGO_BASELINE) / 2) * logoScale) / 2;
   return (
     <div
       // invisible keeps the line's space, so content around it doesn't shift when it appears.
-      className={`flex shrink-0 items-center ${nameDrawn && logoLoaded ? "" : "invisible"}`}
+      className={`flex shrink-0 items-center ${ready ? "" : "invisible"}`}
       style={{
         gap: (WORD_GAP - LOGO_LEFT_BEARING) * logoScale,
         transform: centerOnLetters ? `translateY(${lettersOffset}px)` : undefined,

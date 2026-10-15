@@ -2,11 +2,14 @@ import TierList from "@/components/tier-list";
 import CandidateList from "@/components/candidate-list";
 import { TierListProvider } from "@/components/tier-list-context";
 import ClearButton from "@/components/clear-button";
+import LoadingOverlay from "@/components/loading-overlay";
+import { getLoadingMessages } from "@/lib/loading-messages";
 
 export default function Home() {
   return (
     <TierListProvider>
-      <div className="flex flex-1 flex-col bg-zinc-50 font-sans md:flex-row dark:bg-black">
+      <LoadingOverlay messages={getLoadingMessages()} />
+      <div className="flex flex-1 flex-col bg-pink-50 font-sans md:flex-row dark:bg-black">
         <form className="flex flex-1 flex-col gap-4 border-b border-black/[.08] p-4 md:border-r md:border-b-0 dark:border-white/[.145]">
           <label className="flex flex-col gap-1 text-sm font-medium text-black dark:text-zinc-50">
             <span className="text-base font-bold uppercase text-[#D94296]">Name</span>
