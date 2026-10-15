@@ -1,13 +1,16 @@
-const tiers = [
-  { label: "S-Tier", color: "#ff7f7f" },
-  { label: "A-Tier", color: "#ffbf7f" },
-  { label: "B-Tier", color: "#ffdf7f" },
-  { label: "C-Tier", color: "#ffff7f" },
-  { label: "D-Tier", color: "#bfff7f" },
-  { label: "F-Tier", color: "#7fff7f" },
-];
+"use client";
+
+import { useState } from "react";
+import { candidates, CANDIDATE_DRAG_TYPE } from "@/lib/candidates";
+import { tiers, useTierList } from "@/components/tier-list-context";
+import CandidateChip from "@/components/candidate-chip";
+
+const candidatesById = new Map(candidates.map((c) => [c.id, c]));
 
 export default function TierList() {
+  const { state, dispatch } = useTierList();
+  const [dragOverTier, setDragOverTier] = useState<string | null>(null);
+
   return (
     <div className="flex flex-1 flex-col border border-black bg-white">
       {tiers.map((tier) => (
@@ -18,7 +21,36 @@ export default function TierList() {
           >
             {tier.label}
           </div>
-          <div className="flex flex-1 flex-wrap items-center gap-1 bg-white p-1" />
+          <div
+            onDragOver={(e) => {
+              if (!e.dataTransfer.types.includes(CANDIDATE_DRAG_TYPE)) return;
+              e.preventDefault();
+              setDragOverTier(tier.label);
+            }}
+            onDragLeave={() => setDragOverTier(null)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setDragOverTier(null);
+              dispatch({
+                type: "place",
+                candidateId: e.dataTransfer.getData(CANDIDATE_DRAG_TYPE),
+                tierLabel: tier.label,
+              });
+            }}
+            className={`flex flex-1 flex-wrap items-center gap-1 p-1 ${
+              dragOverTier === tier.label ? "bg-zinc-100" : "bg-white"
+            }`}
+          >
+            {state.placements
+              .filter((p) => p.tier === tier.label)
+              .map(({ id }) => (
+                <CandidateChip
+                  key={id}
+                  candidate={candidatesById.get(id)!}
+                  className="border-black/[.15] bg-white text-black"
+                />
+              ))}
+          </div>
         </div>
       ))}
     </div>
