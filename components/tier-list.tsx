@@ -62,7 +62,9 @@ export default function TierList() {
         {tiers.map((tier) => (
           <div
             key={tier.label}
-            className="flex min-h-20 flex-1 border-b border-black/[.15] last:border-b-0 dark:border-white/[.2]"
+            // The minimum height sits on the drop zone rather than the row, so the row keeps flex's automatic minimum
+            // and grows past its share when its chips wrap onto more lines.
+            className="flex flex-1 border-b border-black/[.15] last:border-b-0 dark:border-white/[.2]"
           >
             <div
               className="flex w-24 shrink-0 items-center justify-center p-2 text-center text-sm font-bold"
@@ -86,7 +88,7 @@ export default function TierList() {
                   tierLabel: tier.label,
                 });
               }}
-              className={`flex flex-1 flex-wrap items-center gap-1 p-1 ${
+              className={`flex min-h-20 flex-1 flex-wrap items-center gap-1 p-1 ${
                 state.dragOverTier === tier.label ? "bg-zinc-100 dark:bg-zinc-700" : "bg-white dark:bg-zinc-800"
               }`}
             >
