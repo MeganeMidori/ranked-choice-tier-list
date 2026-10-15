@@ -55,12 +55,15 @@ export default function TierList() {
         className="sr-only"
       />
       <div
-        className={`flex flex-1 flex-col border bg-white ${
-          showError ? "border-red-600 dark:border-red-400" : "border-black/[.15]"
+        className={`flex flex-1 flex-col border bg-white dark:bg-zinc-800 ${
+          showError ? "border-red-600 dark:border-red-400" : "border-black/[.15] dark:border-white/[.2]"
         }`}
       >
         {tiers.map((tier) => (
-          <div key={tier.label} className="flex min-h-20 flex-1 border-b border-black/[.15] last:border-b-0">
+          <div
+            key={tier.label}
+            className="flex min-h-20 flex-1 border-b border-black/[.15] last:border-b-0 dark:border-white/[.2]"
+          >
             <div
               className="flex w-24 shrink-0 items-center justify-center p-2 text-center text-sm font-bold"
               style={{ backgroundColor: tier.color, color: tier.textColor }}
@@ -84,7 +87,7 @@ export default function TierList() {
                 });
               }}
               className={`flex flex-1 flex-wrap items-center gap-1 p-1 ${
-                state.dragOverTier === tier.label ? "bg-zinc-100" : "bg-white"
+                state.dragOverTier === tier.label ? "bg-zinc-100 dark:bg-zinc-700" : "bg-white dark:bg-zinc-800"
               }`}
             >
               {state.placements

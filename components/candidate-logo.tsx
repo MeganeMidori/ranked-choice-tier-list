@@ -37,7 +37,8 @@ function splitName(name: string): { lead: string; word?: string } {
 }
 
 // The candidate's name drawn in the logo font, followed by the "maid café" logo (or just "café", see splitName).
-// height is the logo's rendered height in CSS pixels. monochrome draws the name and logo in solid black.
+// height is the logo's rendered height in CSS pixels. monochrome draws the name and logo in solid black, or white in
+// dark mode.
 // centerOnLetters shifts everything down toward centering the letters rather than the whole logo with the maid's
 // feet hanging below them. It goes halfway, since fully centered letters look low with the feet underneath.
 // onReady is called once both the name and the logo are showing.
@@ -59,7 +60,18 @@ export default function CandidateLogo({
   const [leadDrawn, setLeadDrawn] = useState(!lead);
   const [wordDrawn, setWordDrawn] = useState(!word);
   const [logoLoaded, setLogoLoaded] = useState(false);
-  const ready = leadDrawn && wordDrawn && logoLoaded;
+  // Logos with black in them have a dark mode copy with it turned white, which loads alongside them.
+  let logoSrc = monochrome ? "/fanimaid-logo-black.svg" : "/Fanimaid%20Logo.svg";
+  let darkLogoSrc: string | undefined = monochrome ? "/fanimaid-logo-white.svg" : "/fanimaid-logo-dark.svg";
+  let logoWidth = 659;
+  if (word) {
+    logoSrc = monochrome ? "/fanimaid-cafe-logo-black.svg" : "/fanimaid-cafe-logo.svg";
+    // The color café-only logo is all pink.
+    darkLogoSrc = monochrome ? "/fanimaid-cafe-logo-white.svg" : undefined;
+    logoWidth = 317;
+  }
+  const [darkLogoLoaded, setDarkLogoLoaded] = useState(!darkLogoSrc);
+  const ready = leadDrawn && wordDrawn && logoLoaded && darkLogoLoaded;
   const handleReady = useEffectEvent(() => onReady?.());
   useEffect(() => {
     if (ready) handleReady();
@@ -74,12 +86,6 @@ export default function CandidateLogo({
     letterSpacing: LOGO_LETTER_SPACING * logoScale,
     wordGap: WORD_GAP * logoScale,
   };
-  let logoSrc = monochrome ? "/fanimaid-logo-black.svg" : "/Fanimaid%20Logo.svg";
-  let logoWidth = 659;
-  if (word) {
-    logoSrc = monochrome ? "/fanimaid-cafe-logo-black.svg" : "/fanimaid-cafe-logo.svg";
-    logoWidth = 317;
-  }
   return (
     <div
       // invisible keeps the line's space, so content around it doesn't shift when it appears.
@@ -93,7 +99,7 @@ export default function CandidateLogo({
             text={lead}
             {...textProps}
             // Otherwise the same pink as "café" in the logo.
-            className={monochrome ? "text-black" : "text-[#D94296]"}
+            className={monochrome ? "text-black dark:text-white" : "text-[#D94296]"}
             onDraw={() => setLeadDrawn(true)}
           />
         </div>
@@ -103,7 +109,8 @@ export default function CandidateLogo({
           <CanvasText
             text={word}
             {...textProps}
-            className={monochrome ? "text-black" : MAID_COLOR}
+            // White in dark mode like the dark logo's "maid".
+            className={monochrome ? "text-black dark:text-white" : `${MAID_COLOR} dark:text-white`}
             onDraw={() => setWordDrawn(true)}
           />
         </div>
@@ -117,12 +124,26 @@ export default function CandidateLogo({
         height={188}
         draggable={false}
         // Eager so the download starts from the server-rendered HTML. There are only a few logo files, shared by
-        // every chip, and the drag preview's copy is off-screen where a lazy image would never load.
+        // every chip, and the drag preview's copy is off-screen where a lazy image would never load. It also makes
+        // the hidden one of the light and dark logos load, so either is ready when the theme changes.
         loading="eager"
         style={{ height }}
-        className="w-auto"
+        className={`w-auto ${darkLogoSrc ? "dark:hidden" : ""}`}
         onLoad={() => setLogoLoaded(true)}
       />
+      {darkLogoSrc && (
+        <Image
+          src={darkLogoSrc}
+          alt=""
+          width={logoWidth}
+          height={188}
+          draggable={false}
+          loading="eager"
+          style={{ height }}
+          className="hidden w-auto dark:block"
+          onLoad={() => setDarkLogoLoaded(true)}
+        />
+      )}
     </div>
   );
 }

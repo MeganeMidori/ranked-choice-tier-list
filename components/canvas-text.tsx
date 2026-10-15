@@ -48,6 +48,8 @@ export default function CanvasText({
 
   useEffect(() => {
     let cancelled = false;
+    // Fills in the laid-out text in the canvas's current color, once the font has loaded.
+    let paint: (() => void) | undefined;
     loadFont().then(() => {
       const canvas = ref.current;
       const ctx = canvas?.getContext("2d");
@@ -95,14 +97,24 @@ export default function CanvasText({
       ctx.scale(dpr, dpr);
       ctx.font = font;
       ctx.textBaseline = "alphabetic";
-      ctx.fillStyle = getComputedStyle(canvas).color;
-      for (const { char, x } of glyphs) ctx.fillText(char, x, y);
+      paint = () => {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = getComputedStyle(canvas).color;
+        for (const { char, x } of glyphs) ctx.fillText(char, x, y);
+      };
+      paint();
       handleDraw();
     });
+    // The text color can depend on the theme, and the canvas doesn't follow CSS changes on its own.
+    const darkMode = window.matchMedia("(prefers-color-scheme: dark)");
+    const repaint = () => paint?.();
+    darkMode.addEventListener("change", repaint);
     return () => {
       cancelled = true;
+      darkMode.removeEventListener("change", repaint);
     };
-  }, [text, height, xHeight, baseline, letterSpacing, wordGap]);
+    // className is a dependency so a new text color gets drawn.
+  }, [text, height, xHeight, baseline, letterSpacing, wordGap, className]);
 
   return <canvas ref={ref} className={className} role="img" aria-label={text} height={height} width={0} />;
 }
