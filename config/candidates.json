@@ -49,10 +49,16 @@
       "description": "Hoshi colle (星コレ) means \"star collection,\". Each maid is a star in our shared constellation. A heart-shaped jar of origami stars was proposed as the central image."
     },
     {
-      "id": "maid-day",
+      "id": "maid-day-cafe",
       "name": "Maid Day Cafe",
       "nameJa": "メイドデイカフェ",
       "description": "Named after May 10, \"Maid Day,\" the same date our sister brand 5.1 Play is named for, creating a natural tie-in between the two."
+    },
+    {
+      "id": "maid-day",
+      "name": "Maid Day",
+      "nameJa": "メイドデイ",
+      "description": "Same idea as \"Maid Day Cafe\", but a little shorter!"
     }
   ]
 }
