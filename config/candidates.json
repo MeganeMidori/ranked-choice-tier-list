@@ -1,16 +1,22 @@
 {
   "candidates": [
     {
+      "id": "atsumare",
+      "name": "Atsumare Maid Cafe",
+      "nameJa": "集まれメイドカフェ",
+      "description": "Atsumare means \"gather around\", referring to the togetherness and community when all our maids and goshujinsama gather together. Can be shortened to Atsumaid as a nickname!"
+    },
+    {
       "id": "moe-point",
       "name": "Moe Point Maid Cafe",
       "nameJa": "萌えポイントメイドカフェ",
       "description": "A moe point is the trait fans love most in a character, like glasses, twintails, or clumsiness. The name celebrates how every maid brings her own flavor of cuteness to the cafe."
     },
     {
-      "id": "moe-magic",
-      "name": "Moe Magic Maid Cafe",
-      "nameJa": "萌えマジックメイドカフェ",
-      "description": "A nod to the moe \"magic\" maids perform at the table, like food blessings and the aikome power-up."
+      "id": "encore",
+      "name": "Encore Maid Cafe",
+      "nameJa": "アンコールメイドカフェ",
+      "description": "This new maid cafe is the encore to Fanimaid Cafe"
     },
     {
       "id": "rebloom",
@@ -19,16 +25,16 @@
       "description": "A fresh start for our cafe, told through flowers. Cherry blossoms and florals have long been part of our graphics and table decorations."
     },
     {
+      "id": "minato",
+      "name": "Minato Maid Cafe",
+      "nameJa": "みなとメイドカフェ",
+      "description": "Minato means harbor, referring to our bay area location. We are a safe harbor for maids!"
+    },
+    {
       "id": "minna-to",
       "name": "Minna To Maid Cafe",
       "nameJa": "みんなとメイドカフェ",
       "description": "Minna to (みんなと) means \"with everyone\": a maid cafe for and with our whole community. It also playfully echoes minato (harbor), a nod to our Bay Area home."
-    },
-    {
-      "id": "okaeri",
-      "name": "Okaeri Maid Cafe",
-      "nameJa": "おかえりメイドカフェ",
-      "description": "Okaeri (おかえり) means \"welcome home\", the greeting we say to every guest all day long. Note: Several existing businesses use \"Okaeri,\" including a Japanese bistro in SF. Our social media handle would have to vary based on availability on each platform."
     },
     {
       "id": "welcome-home",
@@ -59,6 +65,30 @@
       "name": "Maid Day",
       "nameJa": "メイドデイ",
       "description": "Same idea as \"Maid Day Cafe\", but a little shorter!"
+    },
+    {
+      "id": "magic-heart",
+      "name": "Magic Heart Maid Cafe",
+      "nameJa": "まほうこころメイドカフェ",
+      "description": "Named after the heart pose we do during the food blessings"
+    },
+    {
+      "id": "heart-charm",
+      "name": "Heart Charm Maid Cafe",
+      "nameJa": "ハートチャームメイドカフェ",
+      "description": "Named after the heart pose we do during the food blessings"
+    },
+    {
+      "id": "moe-heart",
+      "name": "Moe Heart Maid Cafe",
+      "nameJa": "萌えハートメイドカフェ",
+      "description": "Named after the heart pose we do during the food blessings"
+    },
+    {
+      "id": "moe-magic",
+      "name": "Moe Magic Maid Cafe",
+      "nameJa": "萌えマジックメイドカフェ",
+      "description": "Named after the heart pose we do during the food blessings"
     }
   ]
 }
