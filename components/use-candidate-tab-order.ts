@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { DROP_TARGET_ATTR, UNPLACED } from "@/components/use-touch-drag";
-
-// Marks a candidate chip, so keyboard focus can find it again after it moves.
-export const CANDIDATE_ID_ATTR = "data-candidate-id";
+import { CANDIDATE_ID_ATTR, DROP_TARGET_ATTR, UNPLACED } from "@/components/use-touch-drag";
 
 // Tabs through the form in DOM order, but with the unplaced candidates slotted in right after the tier list, so they can
 // be picked up and placed before moving on to the comments. The candidate pool sits outside the form, after it, so its

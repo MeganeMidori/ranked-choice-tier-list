@@ -6,6 +6,8 @@ import { tiers, type TierLabel } from "@/components/tier-list-context";
 // Marks an element as a place a dragged candidate can be dropped: a tier's label, or UNPLACED for the candidate pool.
 export const DROP_TARGET_ATTR = "data-drop-target";
 export const UNPLACED = "unplaced";
+// Marks a candidate chip, so keyboard focus can find it again after it moves, and drops can tell where it is.
+export const CANDIDATE_ID_ATTR = "data-candidate-id";
 
 // How long a finger must rest on a chip before it's picked up, so a swipe still scrolls the page, in ms.
 const LONG_PRESS_MS = 300;
@@ -21,6 +23,20 @@ function dropTargetAt(x: number, y: number): TierLabel | null | undefined {
   const value = document.elementFromPoint(x, y)?.closest(`[${DROP_TARGET_ATTR}]`)?.getAttribute(DROP_TARGET_ATTR);
   if (value === UNPLACED) return null;
   return tiers.find((t) => t.label === value)?.label;
+}
+
+// The candidate in a tier, or the unplaced pool when target is null, that a candidate dropped at height y would land
+// before, or null for the end. The dragged candidate itself is skipped, so dropping it next to where it already is
+// leaves it there.
+export function dropBefore(target: TierLabel | null, y: number, draggedId: string | null): string | null {
+  const chips = document.querySelectorAll(`[${DROP_TARGET_ATTR}="${target ?? UNPLACED}"] [${CANDIDATE_ID_ATTR}]`);
+  for (const chip of chips) {
+    const id = chip.getAttribute(CANDIDATE_ID_ATTR)!;
+    if (id === draggedId) continue;
+    const { top, bottom } = chip.getBoundingClientRect();
+    if (y < (top + bottom) / 2) return id;
+  }
+  return null;
 }
 
 // The nearest element under a point that can scroll vertically, or the page itself. On mobile, the form and the
@@ -51,8 +67,9 @@ export function useTouchDrag({
   previewRef: React.RefObject<HTMLElement | null>;
   enabled: boolean;
   onStart: () => void;
-  onOver: (target: TierLabel | null | undefined) => void;
-  onDrop: (target: TierLabel | null | undefined) => void;
+  // y is the finger's height, for placing the chip within the tier or candidate pool.
+  onOver: (target: TierLabel | null | undefined, y: number) => void;
+  onDrop: (target: TierLabel | null | undefined, y: number) => void;
   onCancel: () => void;
 }) {
   const touchActive = useRef(false);
@@ -80,7 +97,7 @@ export function useTouchDrag({
         preview.style.top = `${y - preview.offsetHeight / 2}px`;
         preview.style.zIndex = "60";
       }
-      over(dropTargetAt(x, y));
+      over(dropTargetAt(x, y), y);
     };
 
     // Scrolls whatever's under the finger while it's near that area's top or bottom edge, faster the closer it gets,
@@ -96,7 +113,7 @@ export function useTouchDrag({
       const depth = fromTop < EDGE_PX ? fromTop - EDGE_PX : fromBottom < EDGE_PX ? EDGE_PX - fromBottom : 0;
       if (depth !== 0) {
         scroller.scrollBy(0, (depth / EDGE_PX) * MAX_SCROLL_PX);
-        over(dropTargetAt(last.x, last.y));
+        over(dropTargetAt(last.x, last.y), last.y);
       }
       frame = requestAnimationFrame(autoScroll);
     };
@@ -137,7 +154,7 @@ export function useTouchDrag({
       if (dragging) {
         // Stops the tap from also firing a click.
         e.preventDefault();
-        drop(dropTargetAt(last.x, last.y));
+        drop(dropTargetAt(last.x, last.y), last.y);
       }
       finish();
     };
