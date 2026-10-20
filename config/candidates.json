@@ -4,12 +4,14 @@
       "id": "atsumare",
       "name": "Atsumare Maid Cafe",
       "nameJa": "集まれメイドカフェ",
+      "pronunciation": "ah-tsoo-*mah*-re",
       "description": "Atsumare means \"gather around\", referring to the togetherness and community when all our maids and goshujinsama gather together. Can be shortened to Atsumaid as a nickname!"
     },
     {
       "id": "moe-point",
       "name": "Moe Point Maid Cafe",
       "nameJa": "萌えポイントメイドカフェ",
+      "pronunciation": "*moh*-e point",
       "description": "A moe point is the trait fans love most in a character, like glasses, twintails, or clumsiness. The name celebrates how every maid brings her own flavor of cuteness to the cafe."
     },
     {
@@ -28,12 +30,14 @@
       "id": "minato",
       "name": "Minato Maid Cafe",
       "nameJa": "みなとメイドカフェ",
+      "pronunciation": "mee-*nah*-toh",
       "description": "Minato means harbor, referring to our bay area location. We are a safe harbor for maids!"
     },
     {
       "id": "minna-to",
       "name": "Minna To Maid Cafe",
       "nameJa": "みんなとメイドカフェ",
+      "pronunciation": "*meen*-nah toh",
       "description": "Minna to (みんなと) means \"with everyone\": a maid cafe for and with our whole community. It also playfully echoes minato (harbor), a nod to our Bay Area home."
     },
     {
@@ -46,12 +50,14 @@
       "id": "yumemiru",
       "name": "Yumemiru",
       "nameJa": "夢見る",
+      "pronunciation": "yoo-me-*mee*-roo",
       "description": "Yumemiru (夢見る) means \"to dream,\". It describes a place where our maids can pursue their goals and aspirations. Note: This name is thematically similar to the existing Dreamland Maid Cafe. Please consider whether it feels distinct enough, and let your vote reflect that."
     },
     {
       "id": "hoshicolle",
       "name": "Hoshicolle Maid Cafe",
       "nameJa": "星コレメイドカフェ",
+      "pronunciation": "hoh-shee-*koh*-re",
       "description": "Hoshi colle (星コレ) means \"star collection,\". Each maid is a star in our shared constellation. A heart-shaped jar of origami stars was proposed as the central image."
     },
     {
@@ -82,12 +88,14 @@
       "id": "moe-heart",
       "name": "Moe Heart Maid Cafe",
       "nameJa": "萌えハートメイドカフェ",
+      "pronunciation": "*moh*-e heart",
       "description": "Named after the heart pose we do during the food blessings"
     },
     {
       "id": "moe-magic",
       "name": "Moe Magic Maid Cafe",
       "nameJa": "萌えマジックメイドカフェ",
+      "pronunciation": "*moh*-e magic",
       "description": "Named after the heart pose we do during the food blessings"
     }
   ]

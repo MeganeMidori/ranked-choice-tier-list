@@ -123,7 +123,14 @@ export default function CandidateChip({
                   <span lang="ja">{candidate.nameJa}</span>
                 </>
               )}
-              {candidate.description && <p className="mt-1 text-xs opacity-70">{candidate.description}</p>}
+              {candidate.pronunciation && (
+                <p className="text-xs opacity-70">
+                  [{" "}
+                  {/* Stressed syllables are wrapped in *asterisks*, shown bold like dictionary.com does. */}
+                  {candidate.pronunciation.split("*").map((part, i) => (i % 2 ? <b key={i}>{part}</b> : part))} ]
+                </p>
+              )}
+              {candidate.description &&<p className="mt-1 text-xs opacity-70">{candidate.description}</p>}
             </div>
           </div>
         ) : (
