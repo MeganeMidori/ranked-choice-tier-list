@@ -58,7 +58,7 @@
       "name": "Hoshicolle Maid Cafe",
       "nameJa": "星コレメイドカフェ",
       "pronunciation": "hoh-shee-*koh*-re",
-      "description": "Hoshi colle (星コレ) means \"star collection,\". Each maid is a star in our shared constellation. A heart-shaped jar of origami stars was proposed as the central image."
+      "description": "Hoshi colle (星コレ) means \"star collection,\". A heart-shaped jar of origami stars has been proposed as a central image, representing both the unique shine of each individual maid and the way we come together to create a love-filled \"aikome\" experience for our goshujinsama."
     },
     {
       "id": "maid-day-cafe",
@@ -76,19 +76,6 @@
       "id": "magic-heart",
       "name": "Magic Heart Maid Cafe",
       "nameJa": "まほうこころメイドカフェ",
-      "description": "Named after the heart pose we do during the food blessings"
-    },
-    {
-      "id": "heart-charm",
-      "name": "Heart Charm Maid Cafe",
-      "nameJa": "ハートチャームメイドカフェ",
-      "description": "Named after the heart pose we do during the food blessings"
-    },
-    {
-      "id": "moe-heart",
-      "name": "Moe Heart Maid Cafe",
-      "nameJa": "萌えハートメイドカフェ",
-      "pronunciation": "*moh*-e heart",
       "description": "Named after the heart pose we do during the food blessings"
     },
     {
